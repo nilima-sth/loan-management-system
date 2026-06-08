@@ -64,3 +64,41 @@
    Rows    : 8,000
    Columns : 29  (27 numeric, 2 categorical)
    Memory  : 2682 KB
+
+--------------------------------CREDIT SCORE ENGINE-------------------------------------------------
+
+1. Loading Advanced Master LMS Data...
+2. Preprocessing & Encoding Text Features...
+3. Executing Strict Temporal Split...
+Historical Training Data Pool (2018-2022) : 5642 loans
+Future Testing Evaluation Pool (2023-2024): 2358 loans
+4. Applying SMOTE to Balance Training Data Imbalance...
+Balanced Training Dimensions              : 5850 samples
+5. Training Temporal XGBoost Model...
+
+============================================================
+USE CASE 1: CREDIT SCORING ENGINE - TEMPORAL VALIDATION REPORT
+============================================================
+OVERALL ACCURACY : 83.46%
+AUC SCORE        : 0.8047 (Target > 0.91 per documentation)
+------------------------------------------------------------
+Detailed Classification Report (NRB Temporal Audit Format):
+               precision    recall  f1-score   support
+
+   Repaid (0)       0.89      0.91      0.90      1908
+Defaulted (1)       0.58      0.50      0.53       450
+
+     accuracy                           0.83      2358
+    macro avg       0.73      0.71      0.72      2358
+ weighted avg       0.83      0.83      0.83      2358
+
+============================================================
+STEP 6: RISK EXPLAINABILITY LOG (NRB COMPLIANCE)
+============================================================
+Top 5 Regulatory Risk Factors Governing Future Predictions:
+ Rank 1 -> emi_income_ratio             : Gain Weight = 17.41
+ Rank 2 -> max_dpd_24m                  : Gain Weight = 11.49
+ Rank 3 -> income_stability             : Gain Weight = 11.26
+ Rank 4 -> insurance_flag               : Gain Weight = 8.43
+ Rank 5 -> overdue_count_12m            : Gain Weight = 7.63
+============================================================
