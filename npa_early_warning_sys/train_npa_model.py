@@ -9,13 +9,12 @@ import warnings
 warnings.filterwarnings('ignore')
 
 print("1. Loading Relational Databases...")
-# UPDATED PATHS: Matching your exact folder structure
 df_master = pd.read_csv("credit_scoring_engine/data/lms_advanced_master.csv")
 df_master['loan_account_id'] = df_master.index + 1
 
 df_schedule = pd.read_csv("npa_early_warning_sys/data/lms_repayment_schedule.csv")
 
-print("2. Engineering Rolling Time-Series Features (CEO Spec 3.2)...")
+print("2. Engineering Rolling Time-Series Features")
 def calculate_rolling_features(group):
     group = group.sort_values('month_index')
     n = len(group)
@@ -24,11 +23,11 @@ def calculate_rolling_features(group):
     feats = {}
     feats['loan_account_id'] = group['loan_account_id'].iloc[0]
     
-    # 1. Current DPD (CEO Spec)
+    # 1. Current DPD 
     last_record = group.iloc[-1]
     feats['current_dpd'] = 30 if last_record['missed'] == 1 else 0
     
-    # 2. Missed Counts & Payment Ratios (CEO Spec)
+    # 2. Missed Counts & Payment Ratios 
     feats['missed_count_6m'] = group.tail(6)['missed'].sum()
     feats['missed_count_3m'] = group.tail(3)['missed'].sum()
     feats['payment_ratio_6m'] = group.tail(6)['amount_paid'].sum() / group.tail(6)['amount_due'].sum()
