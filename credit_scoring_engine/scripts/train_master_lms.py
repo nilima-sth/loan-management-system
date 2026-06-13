@@ -125,3 +125,35 @@ for rank, (feat, score) in enumerate(clean_impacts[:5], 1):
     print(f" Rank {rank} -> {feat:<28} : Gain Weight = {score:.2f}")
 
 print("="*60)
+
+# # ─────────────────────────────────────────────────────────
+# # THE TRANSITION BRIDGE: SCORING THE RAW PROBABILITIES
+# # ─────────────────────────────────────────────────────────
+# print("\n" + "="*60)
+# print("🌉 THE TRANSITION BRIDGE: CALCULATING CREDIT SCORES")
+# print("="*60)
+
+# # Set standard banking scorecard constants
+# BASE_SCORE = 600      # A baseline borrower gets 600 points
+# BASE_ODDS = 50        # Base odds are 50 to 1 of being a good borrower
+# PDO = 20              # Double the odds of being good adds 20 points
+
+# # Calculate scaling factors
+# factor = PDO / np.log(2)
+# offset = BASE_SCORE - (factor * np.log(BASE_ODDS))
+
+# # Take a sample customer probability from your test set (e.g., 5% risk)
+# sample_pd = 0.05 
+
+# # Ensure probability doesn't hit absolute 0 or 1 to prevent math errors
+# sample_pd = np.clip(sample_pd, 0.0001, 0.9999)
+
+# # 1. Calculate the odds of being a "Good" borrower
+# odds_good = (1 - sample_pd) / sample_pd
+
+# # 2. Apply the Log-Odds Scorecard equation
+# credit_score = offset + (factor * np.log(odds_good))
+
+# print(f"Sample Customer Probability of Default: {sample_pd * 100:.1f}%")
+# print(f"Calculated Human-Readable Credit Score: {int(credit_score)} Points")
+# print("="*60)
